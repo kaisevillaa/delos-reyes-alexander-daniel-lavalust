@@ -261,7 +261,7 @@
                                 <td class="id-cell">#<?= html_escape($p['id']); ?></td>
                                 <td class="name-cell"><?= html_escape($p['product_name']); ?></td>
                                 <td class="desc-cell" title="<?= html_escape($p['description'] ?? ''); ?>"><?= html_escape($p['description'] ?? '—'); ?></td>
-                                <td class="num-cell">$<?= number_format((float)$p['price'], 2); ?></td>
+                                <td class="num-cell">₱<?= number_format((float)$p['price'], 2); ?></td>
                                 <td class="num-cell"><?= html_escape($p['quantity']); ?></td>
                                 <td class="num-cell" style="color: #888888; font-size: 12px;"><?= html_escape(date('M d, Y', strtotime($p['created_at']))); ?></td>
                                 <td class="actions-cell">

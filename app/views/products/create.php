@@ -147,7 +147,7 @@
 
             <div class="row">
                 <div class="col form-group">
-                    <label for="price">Price ($)</label>
+                    <label for="price">Price (₱)</label>
                     <input type="number" id="price" name="price" step="0.01" min="0" value="<?= html_escape($old['price'] ?? ''); ?>" required>
                 </div>
                 <div class="col form-group">
