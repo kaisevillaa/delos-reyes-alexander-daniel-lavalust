@@ -6,6 +6,22 @@ $router->get('/student', 'StudentController::index');
 $router->get('/student/profile', 'StudentController::profile')->middleware('student.access');
 $router->get('/users', 'UsersController::index');
 
+$router->get('/login', 'AuthController::login');
+$router->post('/login', 'AuthController::authenticate');
+$router->get('/logout', 'AuthController::logout');
+$router->post('/logout', 'AuthController::logout');
+
+$router->get('/products', 'ProductController::index')->middleware('auth');
+$router->get('/products/create', 'ProductController::create')->middleware('auth');
+$router->post('/products/create', 'ProductController::store')->middleware('auth');
+$router->post('/products/store', 'ProductController::store')->middleware('auth');
+$router->get('/products/edit/{id}', 'ProductController::edit')->middleware('auth');
+$router->post('/products/edit/{id}', 'ProductController::update')->middleware('auth');
+$router->post('/products/update/{id}', 'ProductController::update')->middleware('auth');
+$router->get('/products/delete/{id}', 'ProductController::delete')->middleware('auth');
+$router->post('/products/delete/{id}', 'ProductController::delete')->middleware('auth');
+
+
 /**
  * ------------------------------------------------------------------
  * LavaLust - an opensource lightweight PHP MVC Framework
