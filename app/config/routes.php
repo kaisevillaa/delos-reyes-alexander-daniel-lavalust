@@ -67,3 +67,41 @@ $router->post('/products/delete/{id}', 'ProductController::delete')->middleware(
 /** @var object $router **/
 
 
+
+$router->get('create-migration/{migration_class}', 'MigrationController::create_migration');
+$router->get('migrate', 'MigrationController::migrate');
+$router->get('rollback', 'MigrationController::rollback');
+$router->get('rollback-all', 'MigrationController::rollback_all');
+$router->get('refresh', 'MigrationController::refresh');
+$router->get('status', 'MigrationController::status');
+
+// -------------------------------------------------------------
+// Laboratory Exercise No. 6: REST API Routes
+// -------------------------------------------------------------
+// Auth API
+$router->post('api/auth/login', 'AuthApiController::login');
+$router->post('api/auth/register', 'AuthApiController::register');
+$router->post('api/auth/refresh', 'AuthApiController::refresh');
+$router->post('api/auth/logout', 'AuthApiController::logout');
+$router->get('api/auth/me', 'AuthApiController::me');
+
+
+// Product CRUD API
+$router->get('api/products', 'ProductApiController::index');
+$router->get('api/products/{id}', 'ProductApiController::show');
+$router->post('api/products', 'ProductApiController::store');
+$router->put('api/products/{id}', 'ProductApiController::update');
+$router->patch('api/products/{id}', 'ProductApiController::update');
+$router->delete('api/products/{id}', 'ProductApiController::destroy');
+
+// API Tester Default Route Aliases
+$router->post('api/login', 'AuthApiController::login');
+$router->post('api/refresh', 'AuthApiController::refresh');
+$router->post('api/logout', 'AuthApiController::logout');
+$router->get('api/profile', 'AuthApiController::me');
+$router->get('api/list', 'ProductApiController::index');
+$router->post('api/create', 'ProductApiController::store');
+$router->put('api/update/{id}', 'ProductApiController::update');
+$router->delete('api/delete/{id}', 'ProductApiController::destroy');
+
+

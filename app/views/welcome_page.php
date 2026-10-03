@@ -1,12 +1,17 @@
 <?php
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+$is_logged_in = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
+$logged_user = $_SESSION['username'] ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to LavaLust</title>
+    <title>Alexander Daniel Delos Reyes | Laboratory Exercises</title>
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700;800&family=Unbounded:wght@400;500&display=swap" rel="stylesheet">
@@ -268,6 +273,182 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
             color: var(--text);
             border-color: rgba(255,255,255,0.2);
             background: var(--bg3);
+        }
+
+        .btn-outline {
+            background: rgba(221,72,20,0.08);
+            color: #ff7849;
+            border: 1px solid var(--border-hot);
+        }
+
+        .btn-outline:hover {
+            background: var(--lava);
+            color: #ffffff;
+            border-color: var(--lava);
+            box-shadow: 0 0 20px var(--lava-glow-strong);
+            transform: translateY(-1px);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1.1rem;
+            font-size: 0.8rem;
+            border-radius: 6px;
+        }
+
+        /* ── ROUTES GRID ── */
+        .routes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.25rem;
+            margin-top: 2.5rem;
+        }
+
+        .route-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .route-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--lava), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .route-card:hover {
+            border-color: var(--border-hot);
+            background: #141417;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 25px var(--lava-glow);
+        }
+
+        .route-card:hover::before {
+            opacity: 1;
+        }
+
+        .route-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .route-badges {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .badge-method {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .badge-method-get {
+            background: rgba(34, 197, 94, 0.12);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .badge-method-post {
+            background: rgba(59, 130, 246, 0.12);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .badge-lab {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            background: rgba(221, 72, 20, 0.12);
+            color: #f97316;
+            border: 1px solid var(--border-hot);
+        }
+
+        .badge-mw {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            background: rgba(168, 85, 247, 0.12);
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .badge-tag {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            background: var(--bg3);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+
+        .route-uri {
+            font-family: var(--mono);
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--lava);
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .route-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .route-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-weight: 400;
+        }
+
+        .route-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .route-controller {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--text-muted);
         }
 
         /* ── STAT BAR ── */
@@ -546,8 +727,11 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
         @media (max-width: 768px) {
             .features-layout { grid-template-columns: 1fr; }
             .code-section { grid-template-columns: 1fr; }
-            nav { padding: 1rem 1.5rem; }
-            .nav-links a:not(.btn-nav) { display: none; }
+            .routes-grid { grid-template-columns: 1fr; }
+            nav { padding: 1rem 1.5rem; flex-wrap: wrap; gap: 0.75rem; }
+            .nav-links { flex-wrap: wrap; gap: 0.35rem; }
+            .nav-links a:not(.btn-nav) { font-size: 0.75rem; padding: 0.3rem 0.5rem; }
+            .hero { padding: 4.5rem 1.5rem 3rem; }
             section { padding: 3rem 1.5rem; }
         }
     </style>
@@ -559,33 +743,55 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 <!-- NAV -->
 <nav>
-    <a class="nav-logo" href="#">
+    <a class="nav-logo" href="<?= site_url('/'); ?>">
         <div class="flame">🔥</div>
-        LavaLust
+        Alexander Daniel
     </a>
     <div class="nav-links">
-        <a href="https://lavalust.netlify.app/docs/" target="_blank">Docs</a>
-        <a href="https://github.com/ronmarasigan/LavaLust" target="_blank">GitHub</a>
-        <a href="https://lavalust.netlify.app/docs/" target="_blank" class="btn-nav">Get Started →</a>
+        <a href="<?= site_url('student'); ?>">Student Hub</a>
+        <a href="<?= site_url('student/profile'); ?>">Profile</a>
+        <a href="<?= site_url('users'); ?>">Users</a>
+        <a href="<?= site_url('products'); ?>">Products</a>
+        <a href="#routes">All Routes</a>
+        <?php if ($is_logged_in): ?>
+            <a href="<?= site_url('logout'); ?>" class="btn-nav" style="background:#cf1322;">Logout (<?= html_escape($logged_user); ?>)</a>
+        <?php else: ?>
+            <a href="<?= site_url('login'); ?>" class="btn-nav">Login →</a>
+        <?php endif; ?>
     </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero wrap">
-    <div class="badge">v<?php echo config_item('VERSION') ?? '4.x'; ?> — Now Available</div>
+    <div class="badge">Web Development 2 — Laboratory Exercises</div>
     <h1>
         <span class="word-lava">Alexander Daniel</span><br>
         <span class="word-lust">Delos Reyes</span>
     </h1>
     <p class="hero-sub">
-        A lightweight, expressive PHP MVC framework built for developers who want structure without the bloat.
+        Explore interactive routes, controllers, and database modules built with the LavaLust PHP MVC Framework. Click any button below to test and inspect the implementation.
     </p>
     <div class="hero-actions">
-        <a href="https://lavalust.netlify.app/docs/" target="_blank" class="btn btn-primary">
-            Read the Docs
+        <a href="<?= site_url('student'); ?>" class="btn btn-primary">
+            Student Hub &rarr;
         </a>
-        <a href="https://github.com/ronmarasigan/LavaLust" target="_blank" class="btn btn-ghost">
-            View on GitHub
+        <a href="<?= site_url('products'); ?>" class="btn btn-primary">
+            Products Catalog &rarr;
+        </a>
+        <a href="<?= site_url('users'); ?>" class="btn btn-ghost">
+            Users Directory
+        </a>
+        <?php if ($is_logged_in): ?>
+            <a href="<?= site_url('logout'); ?>" class="btn btn-ghost">
+                Sign Out (<?= html_escape($logged_user); ?>)
+            </a>
+        <?php else: ?>
+            <a href="<?= site_url('login'); ?>" class="btn btn-ghost">
+                Sign In
+            </a>
+        <?php endif; ?>
+        <a href="#routes" class="btn btn-ghost">
+            Explore All Routes &darr;
         </a>
     </div>
 </div>
@@ -593,22 +799,181 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 <!-- STATS -->
 <div class="stats">
     <div class="stat">
-        <div class="stat-value">MVC<span>+</span></div>
-        <div class="stat-label">Architecture</div>
+        <div class="stat-value">Lab<span>3</span></div>
+        <div class="stat-label">Student Hub &amp; Profile</div>
     </div>
     <div class="stat">
-        <div class="stat-value"><span>4</span> DB</div>
-        <div class="stat-label">Drivers</div>
+        <div class="stat-value">Lab<span>4</span></div>
+        <div class="stat-label">Database Users</div>
     </div>
     <div class="stat">
-        <div class="stat-value">HMVC<span>✓</span></div>
-        <div class="stat-label">Module Support</div>
+        <div class="stat-value">Lab<span>5</span></div>
+        <div class="stat-label">Products CRUD</div>
     </div>
     <div class="stat">
-        <div class="stat-value">REST<span>*</span></div>
-        <div class="stat-label">API Ready</div>
+        <div class="stat-value">Auth<span>✓</span></div>
+        <div class="stat-label">Middleware Guard</div>
     </div>
 </div>
+
+<div class="divider"></div>
+
+<!-- APPLICATION ROUTES SHOWCASE -->
+<section id="routes">
+    <div class="wrap">
+        <div class="section-label">// application routes &amp; endpoints</div>
+        <h2 class="section-title">Laboratory Exercise Routes</h2>
+        <p class="section-desc">Interactive buttons for every route implemented across Laboratory Exercises 3, 4, and 5.</p>
+
+        <div class="routes-grid">
+            <!-- ROUTE: STUDENT HUB -->
+            <div class="route-card">
+                <div>
+                    <div class="route-header">
+                        <div class="route-badges">
+                            <span class="badge-method badge-method-get">GET</span>
+                            <span class="badge-lab">Lab 3</span>
+                        </div>
+                        <span class="badge-tag">Session Init</span>
+                    </div>
+                    <div class="route-uri">/student</div>
+                    <h3 class="route-title">Student Hub</h3>
+                    <p class="route-desc">Displays core student details (ID, Course, Year Level, Section) and initializes session access token for profile validation.</p>
+                </div>
+                <div class="route-footer">
+                    <span class="route-controller">StudentController::index</span>
+                    <a href="<?= site_url('student'); ?>" class="btn btn-sm btn-outline">Launch Route &rarr;</a>
+                </div>
+            </div>
+
+            <!-- ROUTE: STUDENT PROFILE -->
+            <div class="route-card">
+                <div>
+                    <div class="route-header">
+                        <div class="route-badges">
+                            <span class="badge-method badge-method-get">GET</span>
+                            <span class="badge-lab">Lab 3</span>
+                        </div>
+                        <span class="badge-mw">shield: student.access</span>
+                    </div>
+                    <div class="route-uri">/student/profile</div>
+                    <h3 class="route-title">Student Profile</h3>
+                    <p class="route-desc">Detailed student bio card featuring contact details, technical skills, hobbies, and social links. Protected by middleware verification.</p>
+                </div>
+                <div class="route-footer">
+                    <span class="route-controller">StudentController::profile</span>
+                    <a href="<?= site_url('student/profile'); ?>" class="btn btn-sm btn-outline">Launch Route &rarr;</a>
+                </div>
+            </div>
+
+            <!-- ROUTE: USERS -->
+            <div class="route-card">
+                <div>
+                    <div class="route-header">
+                        <div class="route-badges">
+                            <span class="badge-method badge-method-get">GET</span>
+                            <span class="badge-lab">Lab 4</span>
+                        </div>
+                        <span class="badge-tag">Database ORM</span>
+                    </div>
+                    <div class="route-uri">/users</div>
+                    <h3 class="route-title">Users Directory</h3>
+                    <p class="route-desc">Queries and renders database records via UsersModel, presenting user accounts in a clean structured table.</p>
+                </div>
+                <div class="route-footer">
+                    <span class="route-controller">UsersController::index</span>
+                    <a href="<?= site_url('users'); ?>" class="btn btn-sm btn-outline">Launch Route &rarr;</a>
+                </div>
+            </div>
+
+            <!-- ROUTE: PRODUCTS -->
+            <div class="route-card">
+                <div>
+                    <div class="route-header">
+                        <div class="route-badges">
+                            <span class="badge-method badge-method-get">GET</span>
+                            <span class="badge-lab">Lab 5</span>
+                        </div>
+                        <span class="badge-mw">shield: auth</span>
+                    </div>
+                    <div class="route-uri">/products</div>
+                    <h3 class="route-title">Products Inventory</h3>
+                    <p class="route-desc">Product catalog with full CRUD actions (create, read, edit, delete), formatted pricing, and quantity metrics guarded by authentication middleware.</p>
+                </div>
+                <div class="route-footer">
+                    <span class="route-controller">ProductController::index</span>
+                    <a href="<?= site_url('products'); ?>" class="btn btn-sm btn-primary">Open Products &rarr;</a>
+                </div>
+            </div>
+
+            <!-- ROUTE: PRODUCTS CREATE -->
+            <div class="route-card">
+                <div>
+                    <div class="route-header">
+                        <div class="route-badges">
+                            <span class="badge-method badge-method-get">GET</span>
+                            <span class="badge-method badge-method-post">POST</span>
+                            <span class="badge-lab">Lab 5</span>
+                        </div>
+                        <span class="badge-mw">shield: auth</span>
+                    </div>
+                    <div class="route-uri">/products/create</div>
+                    <h3 class="route-title">Add New Product</h3>
+                    <p class="route-desc">Form view to insert new items into the product database with real-time feedback and validation.</p>
+                </div>
+                <div class="route-footer">
+                    <span class="route-controller">ProductController::create</span>
+                    <a href="<?= site_url('products/create'); ?>" class="btn btn-sm btn-outline">+ Add Product &rarr;</a>
+                </div>
+            </div>
+
+            <!-- ROUTE: AUTH LOGIN / LOGOUT -->
+            <div class="route-card">
+                <div>
+                    <div class="route-header">
+                        <div class="route-badges">
+                            <span class="badge-method badge-method-get">GET</span>
+                            <span class="badge-method badge-method-post">POST</span>
+                            <span class="badge-lab">Lab 5</span>
+                        </div>
+                        <span class="badge-tag">Auth &amp; Session</span>
+                    </div>
+                    <div class="route-uri">/login <?= $is_logged_in ? '· /logout' : ''; ?></div>
+                    <h3 class="route-title">Authentication Portal</h3>
+                    <p class="route-desc"><?= $is_logged_in ? 'Currently authenticated as <strong>' . html_escape($logged_user) . '</strong>. You can access protected routes or terminate your session.' : 'Sign in using registered credentials to access protected product management routes.'; ?></p>
+                </div>
+                <div class="route-footer">
+                    <span class="route-controller">AuthController::login</span>
+                    <?php if ($is_logged_in): ?>
+                        <a href="<?= site_url('logout'); ?>" class="btn btn-sm btn-outline" style="color: #ff6b6b; border-color: rgba(239, 68, 68, 0.4);">Sign Out &rarr;</a>
+                    <?php else: ?>
+                        <a href="<?= site_url('login'); ?>" class="btn btn-sm btn-outline">Go to Login &rarr;</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- ROUTE: DATABASE MIGRATIONS -->
+            <div class="route-card">
+                <div>
+                    <div class="route-header">
+                        <div class="route-badges">
+                            <span class="badge-method badge-method-get">GET</span>
+                            <span class="badge-lab">Utility</span>
+                        </div>
+                        <span class="badge-tag">Schema CLI</span>
+                    </div>
+                    <div class="route-uri">/status · /migrate</div>
+                    <h3 class="route-title">Migration Runner</h3>
+                    <p class="route-desc">Inspect table migrations, batch statuses, rollback configurations, and manage database schema states.</p>
+                </div>
+                <div class="route-footer">
+                    <span class="route-controller">MigrationController::status</span>
+                    <a href="<?= site_url('status'); ?>" class="btn btn-sm btn-outline">Check Status &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <div class="divider"></div>
 
@@ -661,9 +1026,9 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
     <div class="wrap">
         <div class="code-section">
             <div>
-                <div class="section-label">// quick start</div>
-                <h2 class="section-title">Up and running in minutes.</h2>
-                <p class="section-desc">Define a route, write a controller method, render a view. That's the whole loop.</p>
+                <div class="section-label">// registered routes</div>
+                <h2 class="section-title">Clean routing.<br>Structured flow.</h2>
+                <p class="section-desc">Alexander's routes registered in LavaLust with custom middlewares and controllers.</p>
             </div>
 
             <div>
@@ -676,8 +1041,11 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
                     </div>
                     <div class="code-body">
 <span class="var">$router</span>-><span class="fn">get</span>(<span class="str">'/'</span>, <span class="str">'Welcome::index'</span>);<br>
-<span class="var">$router</span>-><span class="fn">get</span>(<span class="str">'/users'</span>, <span class="str">'Users::index'</span>);<br>
-<span class="var">$router</span>-><span class="fn">post</span>(<span class="str">'/users/store'</span>, <span class="str">'Users::store'</span>);
+<span class="var">$router</span>-><span class="fn">get</span>(<span class="str">'/student'</span>, <span class="str">'StudentController::index'</span>);<br>
+<span class="var">$router</span>-><span class="fn">get</span>(<span class="str">'/student/profile'</span>, <span class="str">'StudentController::profile'</span>)-><span class="fn">middleware</span>(<span class="str">'student.access'</span>);<br>
+<span class="var">$router</span>-><span class="fn">get</span>(<span class="str">'/users'</span>, <span class="str">'UsersController::index'</span>);<br>
+<span class="var">$router</span>-><span class="fn">get</span>(<span class="str">'/login'</span>, <span class="str">'AuthController::login'</span>);<br>
+<span class="var">$router</span>-><span class="fn">get</span>(<span class="str">'/products'</span>, <span class="str">'ProductController::index'</span>)-><span class="fn">middleware</span>(<span class="str">'auth'</span>);
                     </div>
                 </div>
 
@@ -686,14 +1054,13 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
                         <div class="dot dot-r"></div>
                         <div class="dot dot-y"></div>
                         <div class="dot dot-g"></div>
-                        <span class="code-filename">app/controllers/Welcome.php</span>
+                        <span class="code-filename">app/controllers/StudentController.php</span>
                     </div>
                     <div class="code-body">
-<span class="kw">class</span> <span class="cl">Welcome</span> <span class="kw">extends</span> <span class="cl">Controller</span> {<br>
+<span class="kw">class</span> <span class="cl">StudentController</span> <span class="kw">extends</span> <span class="cl">Controller</span> {<br>
 &nbsp;&nbsp;<span class="kw">public function</span> <span class="fn">index</span>() {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="var">$this</span>-><span class="fn">call</span>-><span class="fn">model</span>(<span class="str">'UserModel'</span>);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="var">$data</span>[<span class="str">'users'</span>] = <span class="var">$this</span>-><span class="cl">UserModel</span>-><span class="fn">all</span>();<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="var">$this</span>-><span class="fn">call</span>-><span class="fn">view</span>(<span class="str">'welcome'</span>, <span class="var">$data</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="var">$_SESSION</span>[<span class="str">'student_access_key'</span>] = <span class="str">'xander-verified-2026'</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="var">$this</span>-><span class="fn">call</span>-><span class="fn">view</span>(<span class="str">'student/home'</span>, <span class="var">$data</span>);<br>
 &nbsp;&nbsp;}<br>
 }
                     </div>
@@ -752,9 +1119,11 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
             <?php endif; ?>
         </div>
         <div class="footer-links">
-            <a href="https://github.com/ronmarasigan/LavaLust" target="_blank">GitHub</a>
+            <a href="<?= site_url('student'); ?>">Student Hub</a>
+            <a href="<?= site_url('users'); ?>">Users</a>
+            <a href="<?= site_url('products'); ?>">Products</a>
+            <a href="https://github.com/ronmarasigan/LavaLust" target="_blank">LavaLust</a>
             <a href="https://lavalust.netlify.app/docs/" target="_blank">Docs</a>
-            <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>
         </div>
     </div>
 </footer>
