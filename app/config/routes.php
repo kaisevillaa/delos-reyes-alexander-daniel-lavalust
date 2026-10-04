@@ -75,9 +75,7 @@ $router->get('rollback-all', 'MigrationController::rollback_all');
 $router->get('refresh', 'MigrationController::refresh');
 $router->get('status', 'MigrationController::status');
 
-// -------------------------------------------------------------
-// Laboratory Exercise No. 6: REST API Routes
-// -------------------------------------------------------------
+
 // Auth API
 $router->post('api/auth/login', 'AuthApiController::login');
 $router->post('api/auth/register', 'AuthApiController::register');
@@ -103,5 +101,13 @@ $router->get('api/list', 'ProductApiController::index');
 $router->post('api/create', 'ProductApiController::store');
 $router->put('api/update/{id}', 'ProductApiController::update');
 $router->delete('api/delete/{id}', 'ProductApiController::destroy');
+
+
+$router->post('refresh', 'AuthApiController::refresh');
+$router->get('profile', 'AuthApiController::me');
+$router->get('list', 'ProductApiController::index');
+$router->post('create', 'ProductApiController::store');
+$router->put('update/{id}', 'ProductApiController::update');
+$router->delete('delete/{id}', 'ProductApiController::destroy');
 
 
