@@ -119,12 +119,29 @@ class AuthApiController extends Controller
             $this->api->respond_error('User not found.', 404);
         }
 
+        $studentProfile = [
+            'student_id'          => 'MCC2024-00077',
+            'name'                => 'Alexander Daniel S. Delos Reyes',
+            'course'              => 'BSIT',
+            'year_level'          => '3rd Year',
+            'section'             => 'F2',
+            'email'               => 'delosreyes.alexander@minsu.edu.ph',
+            'address'             => 'Masipit, Calapan City, Oriental Mindoro',
+            'contact_number'      => '09082573088',
+            'skills'              => 'Playing Games, Fixing Computer Hardware',
+            'hobbies'             => 'Listening to Music Nonstop',
+            'profile_description' => "Xander | Information Technology Student\n\n3rd-year BS Information Technology student at Mindoro State University – Calapan City Campus with a strong passion for computer hardware repair and systems troubleshooting. Outside of tech and academics, an avid gamer and music enthusiast.",
+            'instagram'           => 'kai.sevilla',
+            'facebook'            => 'Alexander Delos Reyes (Kai)'
+        ];
+
         $this->api->respond([
-            'status' => 'success',
-            'user'   => [
+            'status'  => 'success',
+            'user'    => [
                 'id'       => $account['id'],
                 'username' => $account['username']
-            ]
+            ],
+            'student' => $studentProfile
         ], 200);
     }
 
